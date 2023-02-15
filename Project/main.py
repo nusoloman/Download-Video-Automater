@@ -32,6 +32,7 @@ login("<your e-mail adress>","<password>.","<Login URL>")
 DOWNLOAD_ADRESS = "<The page URL you want download>"
 driver.get(DOWNLOAD_ADRESS)
 time.sleep(2)
+lectureName = driver.find_element(By.CSS_SELECTOR,".col-sm-8.grid8").get_attribute("innerHTML")
 allVideos = driver.find_elements(By.CSS_SELECTOR,".btn.btn-xs.btn-info")
 for video in allVideos:
     video.click()
@@ -42,7 +43,7 @@ for video in allVideos:
     if (videoNotFound == None):
         element = driver.find_element(By.TAG_NAME,"a").get_attribute("href")
         videoName = driver.find_element(By.CSS_SELECTOR,"td[title='Başlangıç Zamanı']").get_attribute("innerHTML")
-        videoName = videoName.split(" ")[0]+".mp4"          
+        videoName = lectureName.strip() + " " + videoName.split(" ")[0]+".mp4"          
         urllib.request.urlretrieve(element,videoName)       #Video download process
     closeModal = driver.find_element(By.ID,"close-popup")
     closeModal.click()
