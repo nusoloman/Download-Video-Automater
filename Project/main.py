@@ -5,7 +5,6 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver import Keys
 import urllib.request
-from bs4 import BeautifulSoup
 
 def login(USERNAME,PASS,URL):
     driver.get(URL)
@@ -18,6 +17,12 @@ def login(USERNAME,PASS,URL):
     button.click()
     time.sleep(3)
 
+def closeModal() :
+    closeButton = driver.find_element(By.ID, "close-popup")
+    closeButton.click()
+    global scrollPosition
+    scrollPosition += 100
+    driver.execute_script("window.scrollTo(0,{})".format(scrollPosition))
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_experimental_option("detach", True)
@@ -31,24 +36,20 @@ login("<your e-mail adress>","<password>.","<Login URL>")
 
 DOWNLOAD_ADRESS = "<The page URL you want download>"
 driver.get(DOWNLOAD_ADRESS)
-time.sleep(2)
+time.sleep(5)
 lectureName = driver.find_element(By.CSS_SELECTOR,".col-sm-8.grid8").get_attribute("innerHTML")
 allVideos = driver.find_elements(By.CSS_SELECTOR,".btn.btn-xs.btn-info")
 for video in allVideos:
     video.click()
     time.sleep(2)
-    pageSource = driver.page_source
-    soup = BeautifulSoup(pageSource, 'html.parser')
-    videoNotFound = soup.find('td', {'colspan':"5"})
-    if (videoNotFound == None):
-        element = driver.find_element(By.TAG_NAME,"a").get_attribute("href")
+    try:
+        videoFile = driver.find_element(By.TAG_NAME,"a").get_attribute("href")
         videoName = driver.find_element(By.CSS_SELECTOR,"td[title='Başlangıç Zamanı']").get_attribute("innerHTML")
         videoName = lectureName.strip() + " " + videoName.split(" ")[0]+".mp4"          
-        urllib.request.urlretrieve(element,videoName)       #Video download process
-    closeModal = driver.find_element(By.ID,"close-popup")
-    closeModal.click()
-    scrollPosition += 100
-    driver.execute_script("window.scrollTo(0,{})".format(scrollPosition))
+        urllib.request.urlretrieve(videoFile,videoName)       #Video download process
+        closeModal()
+    except:
+        closeModal()
     
 
         
