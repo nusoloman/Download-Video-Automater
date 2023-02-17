@@ -5,17 +5,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver import Keys
 import urllib.request
 
-def wait_until(locator, timeout=10, period=0.5):
-  mustend = time.time() + timeout
-  while time.time() < mustend:
-    try:
-        element = driver.find_element(By.CSS_SELECTOR,locator)
-        if(element.is_displayed()): return True
-        time.sleep(period)
-    except:
-        time.sleep(period)
-  return False
-
 
 def login(USERNAME,PASS):
     driver.get("https://online.yildiz.edu.tr/Account/Login?ReturnUrl=%2f")
@@ -35,6 +24,19 @@ def closeModal() :
     scrollPosition += 100
     driver.execute_script("window.scrollTo(0,{})".format(scrollPosition))
 
+
+def wait_until(locator, timeout=10, period=0.5):    # This function used for blocking misclick.
+  mustend = time.time() + timeout
+  while time.time() < mustend:
+    try:
+        element = driver.find_element(By.CSS_SELECTOR,locator)
+        if(element.is_displayed()): return True
+        time.sleep(period)
+    except:
+        time.sleep(period)
+  return False
+
+
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_experimental_option("detach", True)
 chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
@@ -43,10 +45,12 @@ driver = webdriver.Chrome(options= chrome_options,service=service)
 driver.maximize_window()
 scrollPosition = 0
 
-datafromfile=["https://online.yildiz.edu.tr/?transaction=LMS.EDU.LessonProgram.ViewOnlineLessonProgramForStudent/36484"]
+lessonsUrls=["<First lesson's URL you want to download>","<Second lesson's URL you want to download ...>"]
 login("<your e-mail adress>","<password>")
+
+
 wait_until("li.active a")
-for DOWNLOAD_URL in datafromfile:
+for DOWNLOAD_URL in lessonsUrls:
     scrollPosition = 0
     driver.get(DOWNLOAD_URL)
     wait_until(".btn.btn-xs.btn-info")
