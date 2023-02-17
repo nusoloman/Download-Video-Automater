@@ -4,8 +4,18 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver import Keys
 import urllib.request
-# from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+
+def wait_until(locator, timeout=10, period=0.5):
+  mustend = time.time() + timeout
+  while time.time() < mustend:
+    try:
+        element = driver.find_element(By.CSS_SELECTOR,locator)
+        if(element.is_displayed()): return True
+        time.sleep(period)
+    except:
+        time.sleep(period)
+  return False
+
 
 def login(USERNAME,PASS):
     driver.get("https://online.yildiz.edu.tr/Account/Login?ReturnUrl=%2f")
@@ -18,8 +28,7 @@ def login(USERNAME,PASS):
     button.click()
 
 def closeModal() :
-    time.sleep(3)
-    # closeButton=wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,"button.close")))
+    wait_until("button.close")
     closeButton = driver.find_element(By.CSS_SELECTOR,"button.close")
     closeButton.click()
     global scrollPosition
@@ -33,29 +42,22 @@ service = Service("./chromedriver")
 driver = webdriver.Chrome(options= chrome_options,service=service)
 driver.maximize_window()
 scrollPosition = 0
-# wait = WebDriverWait(driver, 10)
 
 datafromfile=["https://online.yildiz.edu.tr/?transaction=LMS.EDU.LessonProgram.ViewOnlineLessonProgramForStudent/36484"]
 login("<your e-mail adress>","<password>")
-# wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,"li.active a")))
-time.sleep(3)
+wait_until("li.active a")
 for DOWNLOAD_URL in datafromfile:
     scrollPosition = 0
     driver.get(DOWNLOAD_URL)
-    # wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,".btn.btn-xs.btn-info")))
-    time.sleep(3)
+    wait_until(".btn.btn-xs.btn-info")
     lectureName = driver.find_element(By.CSS_SELECTOR,".col-sm-8.grid8").get_attribute("innerHTML") #look
     allVideos = driver.find_elements(By.CSS_SELECTOR,".btn.btn-xs.btn-info")
     for video in allVideos:
         try:
-            time.sleep(3)
-            # wait.until_not(EC.element_to_be_clickable((By.CSS_SELECTOR,"button.close")))
+            wait_until("button.close")
             video.click()
-            time.sleep(3)
-            # wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,"button.close")))
+            wait_until("button.close")
             videoFile = driver.find_elements(By.XPATH,"//a[starts-with(text(),'İzle')]")
-            print(videoFile)
-            print(len(videoFile))
             if (len(videoFile)>1):
                 idx=0
                 for v in videoFile:
@@ -63,18 +65,14 @@ for DOWNLOAD_URL in datafromfile:
                     videoFile= v.get_attribute("href")
                     videoName = driver.find_element(By.CSS_SELECTOR,"td[title='Başlangıç Zamanı']").get_attribute("innerHTML") #look
                     videoName = lectureName.strip() + " " + videoName.split(" ")[0]+ "_({})".format(idx)+".mp4"  
-                    print(videoName+" Basladı") 
-                    time.sleep(5)
-                    # urllib.request.urlretrieve(videoFile,videoName)       #Video download process              
+                    urllib.request.urlretrieve(videoFile,videoName)       #Video download process              
                 closeModal()
                 idx=0
             else:
                 videoFile = videoFile[0].get_attribute("href")
                 videoName = driver.find_element(By.CSS_SELECTOR,"td[title='Başlangıç Zamanı']").get_attribute("innerHTML") #look
-                print(videoName+"Basladı")
                 videoName = lectureName.strip() + " " + videoName.split(" ")[0]+".mp4"   
-                time.sleep(5)
-                # urllib.request.urlretrieve(videoFile,videoName)       #Video download process
+                urllib.request.urlretrieve(videoFile,videoName)       #Video download process
                 closeModal()
         except:
             try :
