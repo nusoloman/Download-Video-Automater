@@ -21,6 +21,12 @@ Yıldız Teknik Üniversitesi online video sisteminin videolarını otomatik ola
 3. Kendinize bir kahve yapın ve gerçekten faydalandıysanız bana bir teşekkür mesajı atın 
 
 
+![lessonsUrlspng](https://user-images.githubusercontent.com/102152555/219854170-ecc31b90-5426-4ab8-82f2-4bb23a05b095.png) <br />
+<br />
+
+https://user-images.githubusercontent.com/102152555/219854164-08d7b6d3-5374-4812-8c11-35c61fce4c0a.mp4
+
+
 # Download-Video-Automater
 It is a code that automatically downloads the videos of Yıldız Technical University online video system. In case the online system is shut down in order to increase face-to-face participation, you can quickly store all the videos in the system on your device. From the moment the code starts working, you can take a coffee break without touching your computer, it will download all the videos for you... 
 
