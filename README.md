@@ -18,7 +18,13 @@ Yıldız Teknik Üniversitesi online video sisteminin videolarını otomatik ola
 
 1. Kodun içerisinde bir login() fonksiyonu var, bu fonksiyona sisteme giriş yapmanızı sağlayacak e-mail ve şifre bilgilerinizi girmelisiniz.
 2. lessonsUrls[] adlı dizinin içine indirmek istediğiniz tüm derslerin linklerini yazın.
-3. Kendinize bir kahve yapın ve gerçekten faydalandıysanız bana bir teşekkür mesajı atın 
+3. Kendinize bir kahve yapın ve gerçekten faydalandıysanız bana bir teşekkür mesajı atın.
+
+
+![lessonsUrlspng](https://user-images.githubusercontent.com/102152555/219854170-ecc31b90-5426-4ab8-82f2-4bb23a05b095.png) <br />
+<br />
+
+https://user-images.githubusercontent.com/102152555/219854164-08d7b6d3-5374-4812-8c11-35c61fce4c0a.mp4
 
 
 # Download-Video-Automater
