@@ -53,9 +53,15 @@ wait_until("li.active a")
 for DOWNLOAD_URL in lessonsUrls:
     scrollPosition = 0
     driver.get(DOWNLOAD_URL)
-    wait_until(".btn.btn-xs.btn-info")
-    lectureName = driver.find_element(By.CSS_SELECTOR,".col-sm-8.grid8").get_attribute("innerHTML") #look
-    allVideos = driver.find_elements(By.CSS_SELECTOR,".btn.btn-xs.btn-info")
+    try: 
+        lectureName = driver.find_element(By.CSS_SELECTOR,".col-sm-8.grid8").get_attribute("innerHTML") #look
+        allVideos = driver.find_elements(By.CSS_SELECTOR,".btn.btn-xs.btn-info")
+    except:
+        wait_until(".col-sm-8.grid8")
+        wait_until(".btn.btn-xs.btn-info")
+        lectureName = driver.find_element(By.CSS_SELECTOR,".col-sm-8.grid8").get_attribute("innerHTML") #look
+        allVideos = driver.find_elements(By.CSS_SELECTOR,".btn.btn-xs.btn-info")
+                    
     for video in allVideos:
         try:
             wait_until("button.close")
