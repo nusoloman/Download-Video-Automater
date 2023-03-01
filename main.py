@@ -4,6 +4,9 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver import Keys
 import urllib.request
+import os
+import chromedriver_autoinstaller
+import shutil
 
 
 def login(USERNAME,PASS):
@@ -25,7 +28,7 @@ def closeModal() :
     driver.execute_script("window.scrollTo(0,{})".format(scrollPosition))
 
 
-def wait_until(locator, timeout=10, period=0.5):    # This function used for blocking misclick.
+def wait_until(locator, timeout=10, period=0.5):             # This function used for blocking misclick.
   mustend = time.time() + timeout
   while time.time() < mustend:
     try:
@@ -36,6 +39,14 @@ def wait_until(locator, timeout=10, period=0.5):    # This function used for blo
         time.sleep(period)
   return False
 
+path = './chromedriver.exe'
+check_file = os.path.isfile(path)
+if (check_file==False):                                      #chromedriver check and download process
+    chromedriver_autoinstaller.install(path="./") 
+    src_path = "./110/chromedriver.exe"
+    dst_path = "./"
+    shutil.move(src_path, dst_path)
+    shutil.rmtree("./110")
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_experimental_option("detach", True)
@@ -54,12 +65,12 @@ for DOWNLOAD_URL in lessonsUrls:
     scrollPosition = 0
     driver.get(DOWNLOAD_URL)
     try: 
-        lectureName = driver.find_element(By.CSS_SELECTOR,".col-sm-8.grid8").get_attribute("innerHTML") #look
+        lectureName = driver.find_element(By.CSS_SELECTOR,".col-sm-8.grid8").get_attribute("innerHTML")
         allVideos = driver.find_elements(By.CSS_SELECTOR,".btn.btn-xs.btn-info")
     except:
         wait_until(".col-sm-8.grid8")
         wait_until(".btn.btn-xs.btn-info")
-        lectureName = driver.find_element(By.CSS_SELECTOR,".col-sm-8.grid8").get_attribute("innerHTML") #look
+        lectureName = driver.find_element(By.CSS_SELECTOR,".col-sm-8.grid8").get_attribute("innerHTML")
         allVideos = driver.find_elements(By.CSS_SELECTOR,".btn.btn-xs.btn-info")
                     
     for video in allVideos:
@@ -73,16 +84,16 @@ for DOWNLOAD_URL in lessonsUrls:
                 for v in videoFile:
                     idx+=1
                     videoFile= v.get_attribute("href")
-                    videoName = driver.find_element(By.CSS_SELECTOR,"td[title='Başlangıç Zamanı']").get_attribute("innerHTML") #look
+                    videoName = driver.find_element(By.CSS_SELECTOR,"td[title='Başlangıç Zamanı']").get_attribute("innerHTML")
                     videoName = lectureName.strip() + " " + videoName.split(" ")[0]+ "_({})".format(idx)+".mp4"  
                     urllib.request.urlretrieve(videoFile,videoName)       #Video download process              
                 closeModal()
                 idx=0
             else:
                 videoFile = videoFile[0].get_attribute("href")
-                videoName = driver.find_element(By.CSS_SELECTOR,"td[title='Başlangıç Zamanı']").get_attribute("innerHTML") #look
+                videoName = driver.find_element(By.CSS_SELECTOR,"td[title='Başlangıç Zamanı']").get_attribute("innerHTML")
                 videoName = lectureName.strip() + " " + videoName.split(" ")[0]+".mp4"   
-                urllib.request.urlretrieve(videoFile,videoName)       #Video download process
+                urllib.request.urlretrieve(videoFile,videoName)                         #Video download process
                 closeModal()
         except:
             try :
