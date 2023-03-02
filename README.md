@@ -22,6 +22,9 @@ Yıldız Teknik Üniversitesi online video sisteminin videolarını otomatik ola
 
 https://user-images.githubusercontent.com/102152555/219854164-08d7b6d3-5374-4812-8c11-35c61fce4c0a.mp4
 
+##Bilinen Hatalar
+1. Bazı ders linkleri, indirme linki sunmadığı için o dersleri program indirmeye çalışsa da indiremiyor ve 58kb bir dosya gözüküyor dizinde. Bilinen bir sorun, en yakın zamanda çözüme kavuşacaktır. 
+
 # Download-Video-Automater
 
 It is a code that automatically downloads the videos of Yıldız Technical University online video system. In case the online system is shut down in order to increase face-to-face participation, you can quickly store all the videos in the system on your device. From the moment the code starts working, you can take a coffee break without touching your computer, it will download all the videos for you...
@@ -40,3 +43,6 @@ It is a code that automatically downloads the videos of Yıldız Technical Unive
 1. There is a login() function in the code, in this function you must enter your e-mail and password information to log in to the system.
 2. In the array named lessonsUrls[], write the links of all the lessons you want to download.
 3. Make yourself a coffee and text me a thank you if you really benefited
+
+## Known Issues
+1. Some course links do not offer a download link, although the program tries to download those courses, they cannot download them and a 58kb file appears in the directory. This is a known issue will be resolved as soon as possible.
