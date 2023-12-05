@@ -4,10 +4,8 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver import Keys
 import urllib.request
-import os
-import chromedriver_autoinstaller
-import shutil
-
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 
 def login(USERNAME,PASS):
     driver.get("https://online.yildiz.edu.tr/Account/Login?ReturnUrl=%2f")
@@ -39,20 +37,12 @@ def wait_until(locator, timeout=10, period=0.5):             # This function use
         time.sleep(period)
   return False
 
-path = './chromedriver.exe'
-check_file = os.path.isfile(path)
-if (check_file==False):                                      #chromedriver check and download process
-    chromedriver_autoinstaller.install(path="./") 
-    src_path = "./110/chromedriver.exe"
-    dst_path = "./"
-    shutil.move(src_path, dst_path)
-    shutil.rmtree("./110")
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_experimental_option("detach", True)
 chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
 service = Service("./chromedriver")
-driver = webdriver.Chrome(options= chrome_options,service=service)
+driver = webdriver.Chrome(ChromeDriverManager().install())
 driver.maximize_window()
 scrollPosition = 0
 
